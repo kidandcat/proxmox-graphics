@@ -1,9 +1,11 @@
 # proxmox-graphics
 
-Library for creating Canvas Graphics from RRD data.
 
+Library for creating Canvas Graphics from RRD data.
 It feeds from proxmox API RRD data.
 
+## Requierements
+ * Proxmox API -> https://github.com/kidandcat/proxmox-rest-api
 
 ## How to use
 
@@ -26,10 +28,10 @@ It feeds from proxmox API RRD data.
     
     <script type="text/javascript">
         vGraphics({
-            id: 100,
-            label: 'CPU',
-            type: 'cpu',
-            element: 'myChart'
+            id: 100,                //Machine ID
+            label: 'CPU',           //Label
+            type: 'cpu',            //chart type, all posible values in the example
+            element: 'myChart'      //ID of html element
         });
         vGraphics({
             id: 100,
