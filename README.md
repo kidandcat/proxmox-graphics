@@ -7,7 +7,7 @@ It feeds from proxmox API RRD data.
 
 ## How to use
 
-<div class="container">
+    <div class="container">
         <div>
             <canvas id="myChart" width="200" height="100"></canvas>
         </div>
