@@ -28,10 +28,11 @@ It feeds from proxmox API RRD data.
     
     <script type="text/javascript">
         vGraphics({
-            id: 100,                //Machine ID
-            label: 'CPU',           //Label
-            type: 'cpu',            //chart type, all posible values in the example
-            element: 'myChart'      //ID of html element
+            id: 100,                        //Machine ID
+            label: 'CPU',                   //Label
+            type: 'cpu',                    //chart type, all posible values in the example
+            element: 'myChart',             //ID of html element
+            url: 'http://localhost:8000'    //API URL
         });
         vGraphics({
             id: 100,
