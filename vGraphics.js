@@ -14617,7 +14617,7 @@ vGraphics = (function(config) {
             backgroundColor: "rgba(75,192,192,0.4)",
             borderColor: "rgba(75,192,192,1)",
             lineTension: 0,
-            data: data,
+            data: data || {},
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBorderWidth: 2,
@@ -14632,7 +14632,7 @@ vGraphics = (function(config) {
                 backgroundColor: "rgba(75,192,122,0.4)",
                 borderColor: "rgba(75,192,192,1)",
                 lineTension: 0,
-                data: data2,
+                data: data2 || {},
                 pointBorderWidth: 1,
                 pointHoverRadius: 5,
                 pointHoverBorderWidth: 2,
@@ -14681,14 +14681,25 @@ vGraphics = (function(config) {
     }
 
     o.get = function(id, type) {
+      console.log('ID:' + id);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var data = JSON.parse(xhttp.responseText);
-                var now = data.pve.data[0].time;
+                var now = data[Object.keys(data)[0]].data[0].time;
+                var error = 0;
+                data[Object.keys(data)[0]].data.forEach(function(ee){
+                  if(!ee.maxcpu){
+                    error++;
+                  }
+                });
+                if(error == data[Object.keys(data)[0]].data.length){
+                  data[Object.keys(data)[0]].data = [];
+                }
+
                 var time1 = new Date();
                 var aAux = [];
-                var dat = data.pve.data.map(function(ee) {
+                var dat = data[Object.keys(data)[0]].data.map(function(ee) {
                     var time2 = (((ee.time - now) / 60));
                     var time4 = time1.getMinutes() - time2;
                     var time5 = new Date(time1.getFullYear(), time1.getMonth(), time1.getDay(), time1.getHours(), time4, 0);
@@ -14735,7 +14746,7 @@ vGraphics = (function(config) {
                 }
             }
         };
-        xhttp.open("GET", URL + "/graphic?id=" + id, true);
+        xhttp.open("GET", URL + "/utils/graphic?id=" + id, true);
         xhttp.send();
     }
 
@@ -14755,9 +14766,15 @@ vGraphics = (function(config) {
         return aObj;
     }
 
-    setInterval(function() {
+    o.kill = function(){
+      clearInterval(interval);
+    }
+
+
+    var interval = setInterval(function() {
         o.get(id, type);
     }, 5000);
+
     o.get(id, type);
 
     return o;
