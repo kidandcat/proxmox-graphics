@@ -14695,6 +14695,7 @@ vGraphics = (function(config) {
                 });
                 if(error == data[Object.keys(data)[0]].data.length){
                   data[Object.keys(data)[0]].data = [];
+                  clearInterval(interval);
                 }
 
                 var time1 = new Date();
@@ -14768,6 +14769,7 @@ vGraphics = (function(config) {
 
     o.kill = function(){
       clearInterval(interval);
+      myChart.destroy();
     }
 
 
