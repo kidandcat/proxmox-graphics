@@ -14913,12 +14913,11 @@ vGraphics = (function(config) {
 
             });
         } else {
-            o.update(data);
+            o.update(data, data2);
         }
     }
 
     o.get = function(id, type) {
-        console.log('ID:' + id);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -14959,6 +14958,7 @@ vGraphics = (function(config) {
                             symbol = 'KB/s';
                             aAux.push({
                                 y: Math.round(ee.netin / 1000 * 100) / 100,
+
                                 x: new Date(time5)
                             });
                             return {
@@ -14977,9 +14977,9 @@ vGraphics = (function(config) {
                 });
 
                 if (type.toUpperCase() == 'NET') {
-                    label = 'NetOut'
+                    label = 'NetOut KB/s';
                     try {
-                        o.createChart(o.swapY(dat), type, symbol, o.swapY(aAux), 'NetIn');
+                        o.createChart(o.swapY(dat), type, symbol, o.swapY(aAux), 'NetIn KB/s');
                     } catch (e) {}
                 } else {
                     try {
@@ -14992,8 +14992,11 @@ vGraphics = (function(config) {
         xhttp.send();
     }
 
-    o.update = function(data) {
+    o.update = function(data, data2) {
         myChart.config.data.datasets[0].data = data;
+        try{
+          myChart.config.data.datasets[1].data = ((data2)?data2:{});
+        }catch(e){}
         myChart.update();
     }
 
@@ -15016,7 +15019,7 @@ vGraphics = (function(config) {
 
     var interval = setInterval(function() {
         o.get(id, type);
-    }, 5000);
+    }, 20000);
 
     o.get(id, type);
 
